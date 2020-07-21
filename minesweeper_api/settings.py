@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "minesweeper_api_user.apps.MinesweeperApiUserConfig",
     "ms_game.apps.MsGameConfig",
     # Third-party apps
+    "rest_framework",
     # Base django apps.
     "django.contrib.admin",
     "django.contrib.auth",

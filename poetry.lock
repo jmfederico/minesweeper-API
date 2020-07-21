@@ -213,6 +213,17 @@ django = ">=1.11"
 testing = ["coverage (>=4.0,<5.0)", "codecov (>=2.0.15,<3.0.0)"]
 
 [[package]]
+category = "main"
+description = "Web APIs for Django, made easy."
+name = "djangorestframework"
+optional = false
+python-versions = ">=3.5"
+version = "3.11.0"
+
+[package.dependencies]
+django = ">=1.11"
+
+[[package]]
 category = "dev"
 description = "Simple dotenv CLI."
 name = "dotenv-cli"
@@ -779,7 +790,7 @@ version = "5.1.0"
 brotli = ["brotli"]
 
 [metadata]
-content-hash = "ae62fcc2fd826ee0a350371b4e5cd7b9c0239aa49f16b06cdcf0a0ceb1926f8a"
+content-hash = "5a4ae17e029042311ca50aed78a1cc2a9be0369590154873072a656ccfe13d1d"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -858,6 +869,10 @@ django-sslserver = [
 django-use-email-as-username = [
     {file = "django-use-email-as-username-1.1.1.tar.gz", hash = "sha256:33988d7dc784b6b33cb0b43e64ba8f5b3025bc6cc42d648aacd1aebb3435b9c7"},
     {file = "django_use_email_as_username-1.1.1-py3-none-any.whl", hash = "sha256:40f5d0930d986b0c1bf755a934aca3ddc5fe94a3c1b694697b2a18f6168de897"},
+]
+djangorestframework = [
+    {file = "djangorestframework-3.11.0-py3-none-any.whl", hash = "sha256:05809fc66e1c997fd9a32ea5730d9f4ba28b109b9da71fccfa5ff241201fd0a4"},
+    {file = "djangorestframework-3.11.0.tar.gz", hash = "sha256:e782087823c47a26826ee5b6fa0c542968219263fb3976ec3c31edab23a4001f"},
 ]
 dotenv-cli = [
     {file = "dotenv-cli-2.0.1.tar.gz", hash = "sha256:13ba217a78db85958707cbd4d4e5091cf598ca1fcbca5333a801710e11a7d018"},

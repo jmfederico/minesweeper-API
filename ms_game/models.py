@@ -37,11 +37,19 @@ class Game(models.Model):
     _cells = {}
 
     @property
-    def size(self):
-        """Return a tuple with the number of columns and rows for the board."""
-        cols = len(self.board)
-        rows = len(self.board[0]) if cols else 0
-        return cols, rows
+    def cols(self):
+        """Return the number of columns of the board."""
+        return len(self.board)
+
+    @property
+    def rows(self):
+        """Return the number of rows of the board."""
+        return len(self.board[0]) if self.cols else 0
+
+    @property
+    def bombs(self):
+        """Return the number of bombs in the board."""
+        return sum(1 for _, cell in self.cells if cell.has_bomb)
 
     def __getitem__(self, key):
         """Return the requested game cell."""
@@ -58,10 +66,7 @@ class Game(models.Model):
         except IndexError:
             raise IndexError("Cell does not exist.")
 
-        if key not in self._cells:
-            self._cells[key] = Cell(cell_data)
-
-        return self._cells[key]
+        return Cell(cell_data)
 
     class Meta:
         """Define properties for Game model."""
@@ -70,8 +75,8 @@ class Game(models.Model):
         verbose_name_plural = "Games"
 
     def _get_neighbors_keys(self, c, r):
-        for cc in range(c - 1, c + 2):
-            for rr in range(r - 1, r + 2):
+        for rr in range(r - 1, r + 2):
+            for cc in range(c - 1, c + 2):
                 if c != cc or r != rr:
                     yield cc, rr
 
@@ -82,6 +87,13 @@ class Game(models.Model):
                 yield cell_key, self[cell_key]
             except IndexError:
                 pass
+
+    @property
+    def cells(self):
+        """Yield all the cells for the current game."""
+        for r in range(0, self.rows):
+            for c in range(0, self.cols):
+                yield (c, r), self[c, r]
 
 
 @dataclass

@@ -12,6 +12,7 @@ django-use-email-as-username = "^1.1.1"
 psycopg2 = "^2.8.5"
 django_heroku = "^0.3.1"
 gunicorn = "^20.0.4"
+djangorestframework = "^3.11.0"
 
 [tool.poetry.dev-dependencies]
 notebook = "^6.0.3"
