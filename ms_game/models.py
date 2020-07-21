@@ -64,7 +64,7 @@ class Game(models.Model):
                     yield cc, rr
 
     def get_neighbors(self, cell_key):
-        """Yield tuples of the neighbors of a cell key."""
+        """Yield tuples of `(key: neighbor)` for the passed cell key."""
         for cell_key in self._get_neighbors_keys(*cell_key):
             try:
                 yield cell_key, self[cell_key]
