@@ -22,12 +22,52 @@ class GameModelTestCase(TestCase):
         self.assertIsInstance(game[0, 0], Cell)
 
     def test_non_existing_cell(self):
-        """Raise KeyError: if the cell does not exist.."""
+        """Raise KeyError: if the cell does not exist."""
         board = {}
         game = Game.objects.create(player=self.user, board=board)
 
         with self.assertRaises(KeyError):
             game[0, 0]
+
+    def test_neighbors(self):
+        """Neighbors is a generator that can be used as a mapping."""
+        board = {}
+        for c in range(0, 10):
+            for r in range(0, 10):
+                board[f"{c},{r}"] = {}
+        game = Game.objects.create(player=self.user, board=board)
+
+        key = 0, 0
+        with self.subTest(key):
+            expected_neighbors = {
+                (1, 0): game[1, 0],
+                (0, 1): game[0, 1],
+                (1, 1): game[1, 1],
+            }
+            self.assertEqual(dict(game.get_neighbors(key)), expected_neighbors)
+
+        key = 9, 9
+        with self.subTest(key):
+            expected_neighbors = {
+                (8, 8): game[8, 8],
+                (9, 8): game[9, 8],
+                (8, 9): game[8, 9],
+            }
+            self.assertEqual(dict(game.get_neighbors(key)), expected_neighbors)
+
+        key = 4, 4
+        with self.subTest(key):
+            expected_neighbors = {
+                (3, 3): game[3, 3],
+                (4, 3): game[4, 3],
+                (5, 3): game[5, 3],
+                (3, 4): game[3, 4],
+                (5, 4): game[5, 4],
+                (3, 5): game[3, 5],
+                (4, 5): game[4, 5],
+                (5, 5): game[5, 5],
+            }
+            self.assertEqual(dict(game.get_neighbors(key)), expected_neighbors)
 
     def test_cell_references_game_board(self):
         """

@@ -41,6 +41,20 @@ class Game(models.Model):
         verbose_name = "Game"
         verbose_name_plural = "Games"
 
+    def _get_neighbors_keys(self, c, r):
+        for cc in range(c - 1, c + 2):
+            for rr in range(r - 1, r + 2):
+                if c != cc or r != rr:
+                    yield cc, rr
+
+    def get_neighbors(self, cell_key):
+        """Yield tuples of the neighbors of a cell key."""
+        for cell_key in self._get_neighbors_keys(*cell_key):
+            try:
+                yield cell_key, self[cell_key]
+            except KeyError:
+                pass
+
 
 @dataclass
 class Cell:
