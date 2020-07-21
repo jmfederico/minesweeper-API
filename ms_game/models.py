@@ -18,7 +18,16 @@ class Status(models.TextChoices):
 
 
 class Game(models.Model):
-    """Represent a board/game of Minesweeper."""
+    """
+    Represent a board/game of Minesweeper.
+
+    A board is composed of Cells, each cell referenced by a tuple
+    of its (column, row) number.
+
+    A Game is Subscriptable, and the cells can be retrieved using the
+    tuple of (column, row) for the cell:
+        - `board[1, 2]`
+    """
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4)
     board = JSONField(_("Board"))
