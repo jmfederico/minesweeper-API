@@ -28,10 +28,10 @@ class Game(models.Model):
             raise TypeError("Invalid cell index.")
 
         # Raise KeyError if cell does not exist.
-        self.board[f"{c},{r}"]
+        cell_data = self.board[f"{c},{r}"]
 
         if key not in self._cells:
-            self._cells[key] = Cell(self, c, r)
+            self._cells[key] = Cell(cell_data)
 
         return self._cells[key]
 
@@ -46,6 +46,23 @@ class Game(models.Model):
 class Cell:
     """Represent a cell in a Game."""
 
-    game: Game
-    column: int
-    row: int
+    _data: dict
+
+    @property
+    def is_flagged(self):
+        """Return True if the cell is flagged, False otherwise."""
+        return self._data.get("flagged", None) is True
+
+    @property
+    def has_bomb(self):
+        """Return True if the cell has a bomb, False otherwise."""
+        return self._data.get("bomb", None) is True
+
+    def flag(self):
+        """Set the cell as flagged."""
+        self._data["flagged"] = True
+
+    def unflag(self):
+        """Set the cell as not flagged."""
+        if "flagged" in self._data:
+            del self._data["flagged"]
