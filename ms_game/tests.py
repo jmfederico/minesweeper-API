@@ -2,7 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from .models import Game, Cell
+from .models import Game, Cell, Status
 
 User = get_user_model()
 
@@ -88,17 +88,17 @@ class CellFlagTestCase(TestCase):
 
     def test_cell_is_flagged(self):
         """When flagged, the is_flagged property is True."""
-        cell = Cell({"flagged": True})
+        cell = Cell({"status": Status.FLAGGED.value})
         self.assertTrue(cell.is_flagged)
 
     def test_cell_is_not_flagged(self):
         """When not flagged, the is_flagged property is False."""
         with self.subTest("marked as False"):
-            cell = Cell({"flagged": False})
+            cell = Cell({"status": Status.COVERED.value})
             self.assertFalse(cell.is_flagged)
 
         with self.subTest("marked as None"):
-            cell = Cell({"flagged": None})
+            cell = Cell({"status": None})
             self.assertFalse(cell.is_flagged)
 
         with self.subTest("no data about flagging"):
@@ -114,7 +114,7 @@ class CellFlagTestCase(TestCase):
 
     def test_unflagging(self):
         """Calling `.unflag()` marks the cell as flagged."""
-        cell = Cell({"flagged": True})
+        cell = Cell({"status": Status.FLAGGED.value})
         self.assertTrue(cell.is_flagged)
         cell.unflag()
         self.assertFalse(cell.is_flagged)

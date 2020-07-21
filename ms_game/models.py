@@ -10,6 +10,13 @@ from django.utils.translation import gettext_lazy as _
 User = get_user_model()
 
 
+class Status(models.TextChoices):
+    """Define possible status for a cell."""
+    FLAGGED = "F"
+    COVERED = "C"
+    UNCOVERED = "U"
+
+
 class Game(models.Model):
     """Represent a board/game of Minesweeper."""
 
@@ -65,7 +72,7 @@ class Cell:
     @property
     def is_flagged(self):
         """Return True if the cell is flagged, False otherwise."""
-        return self._data.get("flagged", None) is True
+        return self._data.get("status", None) == Status.FLAGGED
 
     @property
     def has_bomb(self):
@@ -74,9 +81,9 @@ class Cell:
 
     def flag(self):
         """Set the cell as flagged."""
-        self._data["flagged"] = True
+        self._data["status"] = Status.FLAGGED.value
 
     def unflag(self):
         """Set the cell as not flagged."""
-        if "flagged" in self._data:
-            del self._data["flagged"]
+        if self.is_flagged:
+            del self._data["status"]
