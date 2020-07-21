@@ -43,16 +43,16 @@ class GameModelTestCase(TestCase):
         self.assertIs(cell._data, game.board["0,0"])
 
 
-class CellTestCase(TestCase):
-    """Test the Cell class and its attributes."""
+class CellFlagTestCase(TestCase):
+    """Test the ability to flag Cells."""
 
     def test_cell_is_flagged(self):
-        """When flagged, the is_flagged method return True."""
+        """When flagged, the is_flagged property is True."""
         cell = Cell({"flagged": True})
         self.assertTrue(cell.is_flagged)
 
     def test_cell_is_not_flagged(self):
-        """When not flagged, the is_flagged method return False."""
+        """When not flagged, the is_flagged property is False."""
         with self.subTest("marked as False"):
             cell = Cell({"flagged": False})
             self.assertFalse(cell.is_flagged)
@@ -78,3 +78,26 @@ class CellTestCase(TestCase):
         self.assertTrue(cell.is_flagged)
         cell.unflag()
         self.assertFalse(cell.is_flagged)
+
+
+class CellBombTestCase(TestCase):
+    """Test the ability of Cells to contain bombs."""
+
+    def test_cell_has_bomb(self):
+        """When has a bomb, the has_bomb property is True."""
+        cell = Cell({"bomb": True})
+        self.assertTrue(cell.has_bomb)
+
+    def test_cell_has_no_bomb(self):
+        """When does not have a bomb, the has_bomb property is False."""
+        with self.subTest("marked as False"):
+            cell = Cell({"bomb": False})
+            self.assertFalse(cell.has_bomb)
+
+        with self.subTest("marked as None"):
+            cell = Cell({"bomb": None})
+            self.assertFalse(cell.has_bomb)
+
+        with self.subTest("no data about flagging"):
+            cell = Cell({})
+            self.assertFalse(cell.has_bomb)
