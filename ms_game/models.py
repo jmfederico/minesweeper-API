@@ -94,5 +94,5 @@ class Cell:
             del self._data["status"]
 
     def uncover(self):
-        """Set the cell as not uncovered."""
+        """Set the cell as uncovered."""
         self._data["status"] = Status.UNCOVERED.value
