@@ -93,15 +93,15 @@ class CellFlagTestCase(TestCase):
 
     def test_cell_is_not_flagged(self):
         """When not flagged, the is_flagged property is False."""
-        with self.subTest("marked as False"):
-            cell = Cell({"status": Status.COVERED.value})
+        with self.subTest("marked as uncovered"):
+            cell = Cell({"status": Status.UNCOVERED.value})
             self.assertFalse(cell.is_flagged)
 
         with self.subTest("marked as None"):
             cell = Cell({"status": None})
             self.assertFalse(cell.is_flagged)
 
-        with self.subTest("no data about flagging"):
+        with self.subTest("no data about status"):
             cell = Cell({})
             self.assertFalse(cell.is_flagged)
 
@@ -118,6 +118,36 @@ class CellFlagTestCase(TestCase):
         self.assertTrue(cell.is_flagged)
         cell.unflag()
         self.assertFalse(cell.is_flagged)
+
+
+class CellCoveredTestCase(TestCase):
+    """Test the ability to flag Cells."""
+
+    def test_cell_is_covered(self):
+        """By default cells are covered."""
+        with self.subTest("no data about status"):
+            cell = Cell({})
+            self.assertTrue(cell.is_covered)
+
+        with self.subTest("marked as None"):
+            cell = Cell({"status": None})
+            self.assertTrue(cell.is_covered)
+
+        with self.subTest("marked as Flagged"):
+            cell = Cell({"status": Status.FLAGGED.value})
+            self.assertTrue(cell.is_covered)
+
+    def test_cell_is_not_covered(self):
+        """When uncovered, the is_covered property is False."""
+        cell = Cell({"status": Status.UNCOVERED.value})
+        self.assertFalse(cell.is_covered)
+
+    def test_uncovering(self):
+        """Calling `.uncover()` marks the cell as uncovered."""
+        cell = Cell({})
+        self.assertTrue(cell.is_covered)
+        cell.uncover()
+        self.assertFalse(cell.is_covered)
 
 
 class CellBombTestCase(TestCase):

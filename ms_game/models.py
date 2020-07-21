@@ -12,8 +12,8 @@ User = get_user_model()
 
 class Status(models.TextChoices):
     """Define possible status for a cell."""
+
     FLAGGED = "F"
-    COVERED = "C"
     UNCOVERED = "U"
 
 
@@ -75,6 +75,11 @@ class Cell:
         return self._data.get("status", None) == Status.FLAGGED
 
     @property
+    def is_covered(self):
+        """Return True if the cell is covered, False otherwise."""
+        return self._data.get("status", None) != Status.UNCOVERED
+
+    @property
     def has_bomb(self):
         """Return True if the cell has a bomb, False otherwise."""
         return self._data.get("bomb", None) is True
@@ -87,3 +92,7 @@ class Cell:
         """Set the cell as not flagged."""
         if self.is_flagged:
             del self._data["status"]
+
+    def uncover(self):
+        """Set the cell as not uncovered."""
+        self._data["status"] = Status.UNCOVERED.value
