@@ -36,6 +36,13 @@ class Game(models.Model):
 
     _cells = {}
 
+    @property
+    def size(self):
+        """Return a tuple with the number of columns and rows for the board."""
+        cols = len(self.board)
+        rows = len(self.board[0]) if cols else 0
+        return cols, rows
+
     def __getitem__(self, key):
         """Return the requested game cell."""
         try:
@@ -43,8 +50,13 @@ class Game(models.Model):
         except (ValueError, TypeError):
             raise TypeError("Invalid cell index.")
 
-        # Raise KeyError if cell does not exist.
-        cell_data = self.board[f"{c},{r}"]
+        if c < 0 or r < 0:
+            raise IndexError("Cell does not exist.")
+
+        try:
+            cell_data = self.board[c][r]
+        except IndexError:
+            raise IndexError("Cell does not exist.")
 
         if key not in self._cells:
             self._cells[key] = Cell(cell_data)
@@ -68,7 +80,7 @@ class Game(models.Model):
         for cell_key in self._get_neighbors_keys(*cell_key):
             try:
                 yield cell_key, self[cell_key]
-            except KeyError:
+            except IndexError:
                 pass
 
 

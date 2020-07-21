@@ -16,25 +16,30 @@ class GameModelTestCase(TestCase):
 
     def test_game_has_cells(self):
         """A Game cell can be accessed as an index."""
-        board = {"0,0": {}}
+        board = [[{}]]
         game = Game.objects.create(player=self.user, board=board)
 
         self.assertIsInstance(game[0, 0], Cell)
 
     def test_non_existing_cell(self):
         """Raise KeyError: if the cell does not exist."""
-        board = {}
-        game = Game.objects.create(player=self.user, board=board)
+        with self.subTest("empty board"):
+            board = []
+            game = Game.objects.create(player=self.user, board=board)
 
-        with self.assertRaises(KeyError):
-            game[0, 0]
+            with self.assertRaises(IndexError):
+                game[0, 0]
+
+        with self.subTest("out fo range"):
+            board = [[{}, {}], [{}, {}]]
+            game = Game.objects.create(player=self.user, board=board)
+
+            with self.assertRaises(IndexError):
+                game[3, 0]
 
     def test_neighbors(self):
         """Neighbors is a generator that can be used as a mapping."""
-        board = {}
-        for c in range(0, 10):
-            for r in range(0, 10):
-                board[f"{c},{r}"] = {}
+        board = [[{}] * 10] * 10
         game = Game.objects.create(player=self.user, board=board)
 
         key = 0, 0
@@ -76,11 +81,11 @@ class GameModelTestCase(TestCase):
         This is important to ensure that modification at the Cell level are
         seen in the game board.
         """
-        board = {"0,0": {}}
+        board = [[{}]]
         game = Game.objects.create(player=self.user, board=board)
 
         cell = game[0, 0]
-        self.assertIs(cell._data, game.board["0,0"])
+        self.assertIs(cell._data, game.board[0][0])
 
 
 class CellFlagTestCase(TestCase):
