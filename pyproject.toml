@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "minesweeper-api"
-version = "0.1.0"
+version = "0"
 description = ""
 authors = ["Federico Jaramillo Martinez <federicojaramillom@gmail.com>"]
 

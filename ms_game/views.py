@@ -6,6 +6,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from ms_game.authorization import IsPlayer
+
 from .models import Game
 from .serializers import CellSerializer, GameSerializer
 
@@ -24,6 +26,13 @@ class GameViewset(
 
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+    permission_classes = [IsPlayer]
+
+    def filter_queryset(self, queryset):
+        """Limit the list querysets to the ones the user can access."""
+        if not self.detail:
+            queryset = queryset.filter(player=self.request.user)
+        return queryset
 
     @action(
         detail=True,

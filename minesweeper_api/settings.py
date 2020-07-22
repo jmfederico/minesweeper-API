@@ -211,6 +211,15 @@ if os.environ.get("ALLOWED_HOSTS"):
     ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(" ")
 
 
+# Django Rest Framework
+# https://www.django-rest-framework.org/api-guide/settings/
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ]
+}
+
+
 # https://docs.djangoproject.com/en/dev/topics/logging/#default-logging-configuration
 # Colorize output, and make it more verbose.
 LOGGING = deepcopy(DEFAULT_LOGGING)

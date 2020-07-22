@@ -7,6 +7,7 @@ from django.test import TestCase
 
 from .models import Cell, Game, Status
 from .serializers import GameSerializer, CellSerializer
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -314,3 +315,51 @@ class CellSerializerTestCase(TestCase):
         self.assertRaises(
             serializers.ValidationError, serializer.is_valid, raise_exception=True
         )
+
+
+class GameViewsetTestCase(TestCase):
+    """Test the Serializer for Cell instances."""
+
+    def setUp(self):
+        """Shared test configuration and setup."""
+        self.user_1 = User.objects.create_user("user_1@example.com")
+        self.user_2 = User.objects.create_user("user_2@example.com")
+
+        self.game_1 = Game.objects.create(player=self.user_1, board=[[dict()]])
+        self.game_2 = Game.objects.create(player=self.user_2, board=[[dict()]])
+
+    def test_auth_user_required(self):
+        """Request is denied for anonymous users."""
+        url = reverse("game-list")
+        response = self.client.get(url, secure=True)
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_list_limited_to_auth_user(self):
+        """A player only sees its own games."""
+        self.client.force_login(self.user_1)
+
+        url = reverse("game-list")
+        response = self.client.get(url, secure=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["uuid"], str(self.game_1.uuid))
+
+    def test_access_limited_to_player(self):
+        """A player can not access other player's games."""
+        self.client.force_login(self.user_1)
+
+        url = reverse("game-detail", args=[self.game_2.uuid])
+        response = self.client.get(url, secure=True)
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_access_allowed_to_player(self):
+        """A player can access its games."""
+        self.client.force_login(self.user_1)
+
+        url = reverse("game-detail", args=[self.game_1.uuid])
+        response = self.client.get(url, secure=True)
+
+        self.assertEqual(response.status_code, 200)
