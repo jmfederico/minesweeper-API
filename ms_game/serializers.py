@@ -3,7 +3,7 @@ from random import random
 
 from rest_framework import serializers
 
-from .models import Game
+from .models import Game, Status
 
 
 class GameSerializer(serializers.ModelSerializer):
@@ -94,3 +94,37 @@ class GameSerializer(serializers.ModelSerializer):
         validated_data["player"] = self._context["request"].user
 
         return super().create(validated_data)
+
+
+class CellSerializer(serializers.Serializer):
+    """Serializer for Cell data manipulation."""
+
+    status = serializers.ChoiceField(Status.choices, allow_null=True)
+
+    class Meta:
+        """Define options for CellSerializer."""
+
+        model = Game
+        fields = ["status"]
+
+    def validate(self, attrs):
+        """Validate that the cell is covered."""
+        if not self.instance.is_covered:
+            raise serializers.ValidationError("Can not modify an uncovered cell.")
+
+        return super().validate(attrs)
+
+    def update(self, instance, validated_data):
+        """Update the Cell to match the new status."""
+        status = validated_data["status"]
+
+        if status and Status(status) == Status.FLAGGED:
+            instance.flag()
+            return instance
+
+        if status and Status(status) == Status.UNCOVERED:
+            instance.uncover()
+            return instance
+
+        instance.unflag()
+        return instance
