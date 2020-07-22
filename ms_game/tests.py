@@ -1,9 +1,11 @@
 """Define tests for MD GAme app."""
-from .serializers import GameSerializer
+from unittest.mock import Mock
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from .models import Game, Cell, Status
+from .models import Cell, Game, Status
+from .serializers import GameSerializer
 
 User = get_user_model()
 
@@ -261,3 +263,15 @@ class GameSerializerTestCase(TestCase):
         self.game.board[5][3]["bomb"] = True
         data = GameSerializer(self.game).data
         self.assertEqual(data["bombs"], 3)
+
+    def test_creation(self):
+        """Gives the number of bombs in the board."""
+        request = Mock(user=self.user)
+        serializer = GameSerializer(
+            data={"cols": 5, "rows": 7, "bombs": 4}, context={"request": request}
+        )
+        serializer.is_valid()
+        game = serializer.save()
+        self.assertEqual(game.cols, 5)
+        self.assertEqual(game.rows, 7)
+        self.assertEqual(game.bombs, 4)
