@@ -137,6 +137,10 @@ class Game(models.Model):
             for c in range(0, self.cols):
                 yield (c, r), self[c, r]
 
+    def __str__(self):
+        """Return a useful? string representation of a game."""
+        return F"{self.cols} x {self.rows} - {self.uuid}"
+
 
 @dataclass
 class Cell:
