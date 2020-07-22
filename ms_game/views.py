@@ -1,7 +1,8 @@
 """Define views for MS Game app."""
-from django.utils import timezone
-
 from django.http import Http404
+from django.utils import timezone
+from django.utils.decorators import method_decorator
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import mixins
 from rest_framework import status as http_status
 from rest_framework import viewsets
@@ -14,9 +15,20 @@ from .models import Game
 from .serializers import CellSerializer, GameSerializer
 
 
+@method_decorator(
+    name="list",
+    decorator=swagger_auto_schema(
+        operation_description="Retreive the games for the requesting user."
+    ),
+)
+@method_decorator(
+    name="create",
+    decorator=swagger_auto_schema(
+        operation_description="Create a new game for the requesting user."
+    ),
+)
 class GameViewset(
     mixins.CreateModelMixin,
-    mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):
@@ -36,6 +48,7 @@ class GameViewset(
             queryset = queryset.filter(player=self.request.user)
         return queryset
 
+    @swagger_auto_schema(responses={204: "Empty response."})
     @action(
         detail=True,
         methods=["PUT"],

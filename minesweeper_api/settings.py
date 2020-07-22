@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # Development apps.
     "django_extensions",
     "sslserver",
+    "drf_yasg",
     # Keep last so any app can override templates.
     "django.forms",
 ]

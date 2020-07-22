@@ -347,24 +347,6 @@ class GameViewsetTestCase(TestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["uuid"], str(self.game_1.uuid))
 
-    def test_access_limited_to_player(self):
-        """A player can not access other player's games."""
-        self.client.force_login(self.user_1)
-
-        url = reverse("game-detail", args=[self.game_2.uuid])
-        response = self.client.get(url, secure=True)
-
-        self.assertEqual(response.status_code, 403)
-
-    def test_access_allowed_to_player(self):
-        """A player can access its games."""
-        self.client.force_login(self.user_1)
-
-        url = reverse("game-detail", args=[self.game_1.uuid])
-        response = self.client.get(url, secure=True)
-
-        self.assertEqual(response.status_code, 200)
-
     def test_recursive_uncovering(self):
         """Cells with no neighboring bombs are recursively uncovered."""
         board = create_data_board(100, 100)

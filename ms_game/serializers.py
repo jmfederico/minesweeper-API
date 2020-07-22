@@ -16,6 +16,10 @@ class GameSerializer(serializers.ModelSerializer):
     finished = serializers.IntegerField(read_only=True)
     won = serializers.IntegerField(read_only=True)
 
+    # Needed so that Swagger gets them as read_only.
+    uuid = serializers.UUIDField(read_only=True)
+    finished_at = serializers.DateTimeField(read_only=True)
+
     class Meta:
         """Define options for GameSerializer."""
 
