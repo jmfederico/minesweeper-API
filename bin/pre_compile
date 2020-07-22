@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-yarn --cwd mineswepper_ui install \
-    && yarn --cwd mineswepper_ui build \
-    && rm -rf mineswepper_ui/node_modules
