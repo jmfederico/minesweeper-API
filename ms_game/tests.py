@@ -370,11 +370,20 @@ class GameViewsetTestCase(TestCase):
         board = create_data_board(100, 100)
         board[0][0]["bomb"] = True
         board[78][78]["bomb"] = True
+        board[97][98]["bomb"] = True
 
         game = Game(board=board, player=self.user_1)
 
         GameViewset.recursive_uncover_neighbors(game, (5, 5))
 
-        self.assertEqual(game.uncovered, 9998)
-        self.assertTrue(game[0, 0].is_covered)
-        self.assertTrue(game[78, 78].is_covered)
+        self.assertEqual(game.uncovered, 9996)
+
+        with self.subTest("corner"):
+            self.assertTrue(game[0, 0].is_covered)
+
+        with self.subTest("center"):
+            self.assertTrue(game[78, 78].is_covered)
+
+        with self.subTest("almost border"):
+            self.assertTrue(game[97, 98].is_covered)
+            self.assertTrue(game[97, 99].is_covered)
