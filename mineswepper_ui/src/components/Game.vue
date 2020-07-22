@@ -7,19 +7,19 @@
           <div v-if="parseInt(cell(c, r)) === cell(c, r)">{{ cell(c, r) }}</div>
 
           <!-- Is this a bomb?. -->
-          <div v-else-if="cell(c, r) === '*'">{{ cell(c, r) }}</div>
+          <div v-else-if="cell(c, r) === '*'">💣</div>
 
           <!-- If covered, allow uncovering, and flag toggle. -->
           <template v-else>
             <div @click="toggleFlag(c, r)" class="toggle-flag-action action">
-              {{ cell(c, r) === "f" ? "unflag" : "flag" }}
+              {{ cell(c, r) === "f" ? "🚩" : "🏳" }}
             </div>
             <div
               v-if="cell(c, r) !== 'f'"
               @click="uncover(c, r)"
               class="uncover-action action"
             >
-              uncover
+              🗹
             </div>
           </template>
         </td>
@@ -62,18 +62,31 @@ table {
   margin: auto;
 }
 td {
-  cursor: pointer;
   margin: 0.1rem;
   width: 3rem;
   height: 4rem;
-  background-color: lightgray;
+  background-color: #eee;
+  cursor: crosshair;
 
   .action {
+    cursor: pointer;
     height: 50%;
   }
 
-  &.is-f {
+  &.is-c {
+    cursor: pointer;
+    background-color: lightgray;
+  }
+
+  &.is-\* {
     background-color: lightcoral;
+  }
+
+  &.is-f {
+    background-color: lightseagreen;
+    .action {
+      height: 100%;
+    }
   }
 }
 </style>
