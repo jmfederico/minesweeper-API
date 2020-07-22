@@ -34,7 +34,7 @@
     </table>
 
     <dl>
-      <dt>Gametime</dt>
+      <dt>Game time</dt>
       <dd>{{ elapsedTime }}</dd>
       <dt>Number of columns</dt>
       <dd>{{ game.cols }}</dd>
