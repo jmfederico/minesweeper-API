@@ -9,7 +9,10 @@
       <tr v-for="(_, r) in game.rows" :key="r">
         <td v-for="(_, c) in game.cols" :key="c" :class="'is-' + cell(c, r)">
           <!-- If uncovered, print the number of adjacent bombs. -->
-          <div v-if="parseInt(cell(c, r)) === cell(c, r)">{{ cell(c, r) }}</div>
+          <div v-if="parseInt(cell(c, r)) === cell(c, r)">
+            <!-- Show empty string instead of 0 -->
+            {{ cell(c, r) || "" }}
+          </div>
 
           <!-- Is this a bomb?. -->
           <div v-else-if="cell(c, r) === '*'">💣</div>
