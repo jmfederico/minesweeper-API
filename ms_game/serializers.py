@@ -73,6 +73,9 @@ class GameSerializer(serializers.ModelSerializer):
                 continue
 
             if not cell.is_covered:
+                if cell.has_bomb:
+                    board[c][r] = "*"
+                    continue
                 board[c][r] = self._count_bombs(obj.get_neighbors(cell_key))
                 continue
 

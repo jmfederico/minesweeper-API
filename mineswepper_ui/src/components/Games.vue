@@ -11,7 +11,11 @@
       </select>
     </div>
     <div>
-      <Game v-if="selectedGame" :game="selectedGame" />
+      <Game
+        v-if="selectedGame"
+        :game="selectedGame"
+        @cellStatus="handleCellStatus"
+      />
       <NewGameForm v-if="selectedOption == newGameFlag" @newGame="setNewGame" />
     </div>
   </div>
@@ -59,6 +63,11 @@ export default Vue.extend({
     async setNewGame(game) {
       await this.loadGames();
       this.selectedOption = game.uuid;
+    },
+    async handleCellStatus([c, r, status]) {
+      const url = `games/${this.selectedOption}/cells/${c},${r}/`;
+      await this.$axios.put(url, { status });
+      this.loadGames();
     }
   }
 });

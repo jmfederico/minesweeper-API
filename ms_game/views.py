@@ -37,7 +37,7 @@ class GameViewset(
     @action(
         detail=True,
         methods=["PUT"],
-        url_path=r"cells/(?P<col>[1-9][0-9]*),(?P<row>[1-9][0-9]*)",
+        url_path=r"cells/(?P<col>[0-9]*),(?P<row>[0-9]*)",
         serializer_class=CellSerializer,
     )
     def update_cell(self, request, pk, col, row):
