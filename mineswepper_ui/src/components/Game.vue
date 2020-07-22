@@ -189,4 +189,22 @@ td {
 .is-active td .action {
   cursor: pointer;
 }
+
+dl {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+dt,
+dd {
+  box-sizing: border-box;
+  text-align: left;
+  margin: 0;
+  padding: 0.3rem 1rem;
+  width: 50%;
+}
+dt {
+  text-align: right;
+  font-weight: bold;
+}
 </style>
