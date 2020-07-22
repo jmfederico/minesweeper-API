@@ -130,6 +130,18 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/dev/howto/static-files/
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "mineswepper_ui", "dist"),
+]
+# Ensure directories exist.
+# Django only creates "static". ANy other will cause an error.
+for directory in STATICFILES_DIRS:
+    os.makedirs(directory, exist_ok=True)
+
+
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 

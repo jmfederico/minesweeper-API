@@ -1,6 +1,7 @@
 const fs = require("fs");
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "/",
   devServer: {
     host: process.env.HOST,
     https: {
