@@ -1,7 +1,7 @@
 <template>
-  <div :class="game.finished ? 'is-finished' : 'is-active'">
+  <div :class="statusClass">
     <div class="game-status">
-      {{ game.finished ? "Game has finished" : "Game is active!" }}
+      {{ status }}
     </div>
 
     <dl>
@@ -60,6 +60,28 @@ export default Vue.extend({
     }
   },
   computed: {
+    statusClass() {
+      if (this.game.won) {
+        return "is-finished is-won";
+      }
+
+      if (this.game.finished) {
+        return "is-finished is-lost";
+      }
+
+      return "is-active";
+    },
+    status() {
+      if (this.game.won) {
+        return "You have won!";
+      }
+
+      if (this.game.finished) {
+        return "You have lost!";
+      }
+
+      return "You are playing!";
+    },
     flags() {
       return this.game.board.reduce((count, col) => {
         return (
@@ -100,12 +122,15 @@ table {
   margin: auto;
 }
 .game-status {
-  color: green;
+  color: blue;
   font-size: 2rem;
   padding: 1rem;
   font-weight: bold;
 }
-.is-finished .game-status {
+.is-won .game-status {
+  color: green;
+}
+.is-lost .game-status {
   color: red;
 }
 

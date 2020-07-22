@@ -74,7 +74,16 @@ class Game(models.Model):
         A game is finished when a bomb has been uncovered or
         when only bombs are left to be uncovered.
         """
-        return (self.size - self.uncovered == self.bombs) or self.uncovered_bombs
+        return bool((self.size - self.uncovered == self.bombs) or self.uncovered_bombs)
+
+    @property
+    def won(self):
+        """
+        Return True if the game has finished ans the user won.
+
+        A user wins when there are no uncovered bombs.
+        """
+        return self.finished and (self.size - self.uncovered == self.bombs)
 
     def __getitem__(self, key):
         """Return the requested game cell."""
