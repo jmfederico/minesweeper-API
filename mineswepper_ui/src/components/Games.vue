@@ -1,14 +1,16 @@
 <template>
   <div>
     <div>
-      <label>Which game do you want to play?</label>
-      <select v-model="selectedOption">
-        <option :value="null">-- Select an option--</option>
-        <option v-for="game in games" :key="game.uuid" :value="game.uuid">
-          {{ game.uuid }}
-        </option>
-        <option :value="newGameFlag">A new game</option>
-      </select>
+      <label>
+        Which game do you want to play?
+        <select v-model="selectedOption">
+          <option :value="null">-- Select an option--</option>
+          <option v-for="game in games" :key="game.uuid" :value="game.uuid">
+            {{ game.uuid }}
+          </option>
+          <option :value="newGameFlag">A new game</option>
+        </select>
+      </label>
     </div>
     <div>
       <Game

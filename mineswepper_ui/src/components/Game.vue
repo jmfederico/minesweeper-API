@@ -1,11 +1,23 @@
 <template>
-  <div>
-    <table :class="game.finished ? 'is-finished' : 'is-active'">
-      <tr v-if="game.finished">
-        <th :colspan="game.cols">
-          This game has finished
-        </th>
-      </tr>
+  <div :class="game.finished ? 'is-finished' : 'is-active'">
+    <div class="game-status">
+      {{ game.finished ? "Game has finished" : "Game is active!" }}
+    </div>
+
+    <dl>
+      <dt>Number of columns</dt>
+      <dd>{{ game.cols }}</dd>
+      <dt>Number of rows</dt>
+      <dd>{{ game.rows }}</dd>
+      <dt>Total cells</dt>
+      <dd>{{ game.rows * game.cols }}</dd>
+      <dt>Number of bombs</dt>
+      <dd>{{ game.bombs }}</dd>
+      <dt>Number of flags</dt>
+      <dd>{{ flags }}</dd>
+    </dl>
+
+    <table>
       <tr v-for="(_, r) in game.rows" :key="r">
         <td v-for="(_, c) in game.cols" :key="c" :class="'is-' + cell(c, r)">
           <!-- If uncovered, print the number of adjacent bombs. -->
@@ -47,6 +59,18 @@ export default Vue.extend({
       required: true
     }
   },
+  computed: {
+    flags() {
+      return this.game.board.reduce((count, col) => {
+        return (
+          count +
+          col.reduce((count, cell) => {
+            return count + (cell === "f" ? 1 : 0);
+          }, 0)
+        );
+      }, 0);
+    }
+  },
   methods: {
     cell(c, r) {
       return this.game.board[c][r];
@@ -75,11 +99,16 @@ export default Vue.extend({
 table {
   margin: auto;
 }
-th {
-  color: red;
+.game-status {
+  color: green;
   font-size: 2rem;
   padding: 1rem;
+  font-weight: bold;
 }
+.is-finished .game-status {
+  color: red;
+}
+
 td {
   margin: 0.1rem;
   width: 3rem;
