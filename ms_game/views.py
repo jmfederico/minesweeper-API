@@ -65,8 +65,8 @@ class GameViewset(
 
         return Response(status=http_status.HTTP_204_NO_CONTENT)
 
-    @classmethod
-    def recursive_uncover_neighbors(cls, game, cell_key):
+    @staticmethod
+    def recursive_uncover_neighbors(game, cell_key):
         """Recursively uncover neighbors for cells with no adjacent bombs."""
         cell = game[cell_key]
 
