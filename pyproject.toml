@@ -15,11 +15,11 @@ gunicorn = "^20.0.4"
 djangorestframework = "^3.11.0"
 django-cors-headers = "^3.4.0"
 drf-yasg = "^1.17.1"
+django-sslserver = "^0.22"
 
 [tool.poetry.dev-dependencies]
 notebook = "^6.0.3"
 bpython = "^0.19"
-django-sslserver = "^0.22"
 dotenv-cli = "^2.0.1"
 
 [build-system]

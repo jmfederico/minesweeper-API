@@ -224,7 +224,7 @@ psycopg2 = "*"
 whitenoise = "*"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "An SSL-enabled development server for Django"
 name = "django-sslserver"
 optional = false
@@ -898,7 +898,7 @@ version = "5.1.0"
 brotli = ["brotli"]
 
 [metadata]
-content-hash = "a3adf864e6366ca758299bfb55b624100464d8d3c793c466e732f649d90ec01c"
+content-hash = "8c097dede163fb4433c2d13d848288ea5196ebed80f1f9c631aa87c97598cad6"
 python-versions = "^3.8"
 
 [metadata.files]
