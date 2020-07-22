@@ -20,7 +20,17 @@ class GameSerializer(serializers.ModelSerializer):
         """Define options for GameSerializer."""
 
         model = Game
-        fields = ["uuid", "board", "cols", "rows", "bombs", "finished", "won"]
+        fields = [
+            "uuid",
+            "board",
+            "cols",
+            "rows",
+            "bombs",
+            "finished",
+            "won",
+            "created_at",
+            "finished_at",
+        ]
 
     def validate(self, attrs):
         """Validate that the game is not finished."""

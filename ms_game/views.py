@@ -1,4 +1,6 @@
 """Define views for MS Game app."""
+from django.utils import timezone
+
 from django.http import Http404
 from rest_framework import mixins
 from rest_framework import status as http_status
@@ -57,6 +59,8 @@ class GameViewset(
         serializer.is_valid(raise_exception=True)
         serializer.save()
         self.recursive_uncover_neighbors(game, (col, row))
+        if game.finished:
+            game.finished_at = timezone.now()
         game.save()
 
         return Response(status=http_status.HTTP_204_NO_CONTENT)
@@ -72,9 +76,7 @@ class GameViewset(
         covered_neighbors = []
 
         # First pass checks we the current cell has neighbors with bombs.
-        for neighbor_key, neighbor in game.get_neighbors(
-            (cell_key)
-        ):
+        for neighbor_key, neighbor in game.get_neighbors((cell_key)):
             if neighbor.has_bomb:
                 return
             # Keep track of the neighbors we need to uncover next.

@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from rest_framework.fields import DateTimeField
 
 User = get_user_model()
 
@@ -31,8 +32,9 @@ class Game(models.Model):
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4)
     board = JSONField(_("Board"))
-    timelog = JSONField(_("Timelog"), default=list)
     player = models.ForeignKey(User, verbose_name=_("Player"), on_delete=models.CASCADE)
+    created_at = models.DateTimeField(_("created"), auto_now_add=True)
+    finished_at = models.DateTimeField(_("finished"), null=True)
 
     _cells = None
 
