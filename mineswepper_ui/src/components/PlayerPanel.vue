@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h1>Welcome to our MineSweeper Plus ++ 2025</h1>
+      <h1>Welcome to Deviget MineSweeper Plus ++ Mega Ultimate</h1>
     </div>
     <div v-if="!email">
       <EmailForm @email="email = $event" />
@@ -27,6 +27,17 @@ export default Vue.extend({
   components: {
     EmailForm,
     Games
+  },
+  watch: {
+    email(newEmail) {
+      this.$axios.defaults.auth = null;
+      if (newEmail) {
+        this.$axios.defaults.auth = {
+          username: this.email,
+          password: this.email
+        };
+      }
+    }
   }
 });
 </script>

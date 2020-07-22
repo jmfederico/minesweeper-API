@@ -1,13 +1,15 @@
 <template>
   <div>
     <form @submit="setEmail">
-      <label>your email:</label>
-      <input
-        v-model="email"
-        type="email"
-        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-        title="Email must contain a full domain. user@example.com"
-      />
+      <label>
+        your email:
+        <input
+          v-model="email"
+          type="email"
+          pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          title="Email must contain a full domain. user@example.com"
+        />
+      </label>
       <button type="submit">Login</button>
     </form>
   </div>
@@ -17,7 +19,7 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "PlayerPanel",
+  name: "EmailForm",
   data() {
     return {
       email: ""
