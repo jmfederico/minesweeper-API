@@ -34,7 +34,7 @@ class Game(models.Model):
     timelog = JSONField(_("Timelog"), default=list)
     player = models.ForeignKey(User, verbose_name=_("Player"), on_delete=models.CASCADE)
 
-    _cells = {}
+    _cells = None
 
     @property
     def cols(self):
@@ -66,7 +66,13 @@ class Game(models.Model):
         except IndexError:
             raise IndexError("Cell does not exist.")
 
-        return Cell(cell_data)
+        if self._cells is None:
+            self._cells = {}
+
+        if key not in self._cells:
+            self._cells[key] = Cell(cell_data)
+
+        return self._cells[key]
 
     class Meta:
         """Define properties for Game model."""
