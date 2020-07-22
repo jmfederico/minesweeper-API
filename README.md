@@ -17,10 +17,12 @@ will never send you any emails. You can use a fake one, I do not care.
 I am not requesting passwords because passwords are tedious, and who cares if
 someone else sees your games, they might even finish them for you 🥳.
 
-Once you have registered, you can create a new game (use the beautiful select
-box I provide) or you can also continue playing your previous games. Although
-you will only be able to retrieve your last 15 games! Any other will be lost
-forever! 🙀 (They are still in the database, I just hide them)
+All that is required to register/login is to set an email.
+
+Once you have registered/logged in, you can create a new game (use the
+beautiful select box I provide) or you can also continue playing your previous
+games. Although you will only be able to retrieve your last 15 games! Any other
+will be lost forever! 🙀 (They are still in the database, I just hide them)
 
 And be careful! Timer will not stop! Once you create a game the timer starts
 running... 😲
