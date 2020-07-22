@@ -51,6 +51,26 @@ class Game(models.Model):
         """Return the number of bombs in the board."""
         return sum(1 for _, cell in self.cells if cell.has_bomb)
 
+    @property
+    def uncovered(self):
+        """Return the number of uncovered cells in the board."""
+        return sum(1 for _, cell in self.cells if not cell.is_covered)
+
+    @property
+    def uncovered_bombs(self):
+        """Return the number of uncovered bombs in the board."""
+        return sum(1 for _, cell in self.cells if not cell.is_covered and cell.has_bomb)
+
+    @property
+    def finished(self):
+        """
+        Return True if the game has finished.
+
+        A game is finished when a bomb has been uncovered or
+        when only bombs are left to be uncovered.
+        """
+        return self.uncovered == self.bombs or self.uncovered_bombs
+
     def __getitem__(self, key):
         """Return the requested game cell."""
         try:

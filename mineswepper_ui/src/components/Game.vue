@@ -1,6 +1,11 @@
 <template>
   <div>
-    <table>
+    <table :class="game.finished ? 'is-finished' : 'is-active'">
+      <tr v-if="game.finished">
+        <th :colspan="game.cols">
+          This game has finished
+        </th>
+      </tr>
       <tr v-for="(_, r) in game.rows" :key="r">
         <td v-for="(_, c) in game.cols" :key="c" :class="'is-' + cell(c, r)">
           <!-- If uncovered, print the number of adjacent bombs. -->
@@ -44,9 +49,15 @@ export default Vue.extend({
       return this.game.board[c][r];
     },
     uncover(c, r) {
+      if (this.game.finished) {
+        return;
+      }
       this.$emit("cellStatus", [c, r, "U"]);
     },
     toggleFlag(c, r) {
+      if (this.game.finished) {
+        return;
+      }
       if (this.cell(c, r) !== "f") {
         this.$emit("cellStatus", [c, r, "F"]);
         return;
@@ -61,6 +72,11 @@ export default Vue.extend({
 table {
   margin: auto;
 }
+th {
+  color: red;
+  font-size: 2rem;
+  padding: 1rem;
+}
 td {
   margin: 0.1rem;
   width: 3rem;
@@ -69,12 +85,10 @@ td {
   cursor: crosshair;
 
   .action {
-    cursor: pointer;
     height: 50%;
   }
 
   &.is-c {
-    cursor: pointer;
     background-color: lightgray;
   }
 
@@ -88,5 +102,8 @@ td {
       height: 100%;
     }
   }
+}
+.is-active td .action {
+  cursor: pointer;
 }
 </style>

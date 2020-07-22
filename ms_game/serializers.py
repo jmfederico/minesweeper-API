@@ -13,12 +13,20 @@ class GameSerializer(serializers.ModelSerializer):
     cols = serializers.IntegerField()
     rows = serializers.IntegerField()
     bombs = serializers.IntegerField()
+    finished = serializers.IntegerField(read_only=True)
 
     class Meta:
         """Define options for GameSerializer."""
 
         model = Game
-        fields = ["uuid", "board", "cols", "rows", "bombs"]
+        fields = ["uuid", "board", "cols", "rows", "bombs", "finished"]
+
+    def validate(self, attrs):
+        """Validate that the game is not finished."""
+        if self.instance and self.instance.finished:
+            raise serializers.ValidationError("The game has finished.")
+
+        return super().validate(attrs)
 
     @staticmethod
     def _count_bombs(cells):

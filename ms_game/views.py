@@ -42,15 +42,19 @@ class GameViewset(
     )
     def update_cell(self, request, pk, col, row):
         """Allow changing the status of a cell."""
-        board = self.get_object()
+        game = self.get_object()
         try:
-            cell = board[(int(col), int(row))]
+            cell = game[(int(col), int(row))]
         except IndexError:
             raise Http404
+
+        # Force a Game validation.
+        # This checks that the game has not been finished.
+        GameSerializer(game, {}, partial=True).is_valid(raise_exception=True)
 
         serializer = self.get_serializer(cell, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        board.save()
+        game.save()
 
         return Response(status=http_status.HTTP_204_NO_CONTENT)
