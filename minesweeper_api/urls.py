@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.views.generic.base import RedirectView
+
 from django.contrib import admin
 from django.urls import include, path, re_path
 from drf_yasg import openapi
@@ -38,6 +40,7 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+    path("", RedirectView.as_view(url="/static/index.html"), name="go-to-django"),
     path("", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("admin/", admin.site.urls),
