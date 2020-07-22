@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from rest_framework.fields import DateTimeField
 
 User = get_user_model()
 
@@ -115,6 +114,7 @@ class Game(models.Model):
 
         verbose_name = "Game"
         verbose_name_plural = "Games"
+        ordering = ["-created_at"]
 
     def _get_neighbors_keys(self, c, r):
         for rr in range(r - 1, r + 2):

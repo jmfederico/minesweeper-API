@@ -45,7 +45,7 @@ class GameViewset(
     def filter_queryset(self, queryset):
         """Limit the list querysets to the ones the user can access."""
         if not self.detail:
-            queryset = queryset.filter(player=self.request.user)
+            queryset = queryset.filter(player=self.request.user)[:15]
         return queryset
 
     @swagger_auto_schema(responses={204: "Empty response."})

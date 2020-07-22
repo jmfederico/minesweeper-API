@@ -17,20 +17,23 @@ I am not requesting passwords because passwords are tedious, and who cares if
 someone else sees your games, they might even finish them for you 🥳.
 
 Once you have registered, you can create a new game (use the beautiful select
-box I provide) or you can also continue playing your previous games.
+box I provide) or you can also continue playing your previous games. Although
+you will only be able to retrieve your last 15 games! Any other will be lost
+forever! 🙀
 
-But be careful! Timer will not stop! Once you create a game the timer starts
+And be careful! Timer will not stop! Once you create a game the timer starts
 running... 😲
 
 I have provided some easy to remember non configurable game names which you
 can use to go back to your previous games. **You are welcome.**
 
-You can create boards of up to 100 x 100, but do know that your browser will
-complain! I only allow that number so you can see how my recursive uncovering
-implementation does not die due to stack overflow!
+You can create games of up to 100 x 100, but do know that your browser will
+complain! I only allow that number so you can see how my (non-)recursive
+uncovering implementation does not die due to stack overflow!
 
 ### Rules!
  - Click on a flag to, well, flag the cell.
+ - Click on a flagged cell to unflag it.
  - Click on the check-mark to uncover a cell.
  - Keep going until you win, or explode.
 
