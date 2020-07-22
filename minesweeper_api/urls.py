@@ -40,7 +40,7 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path("", RedirectView.as_view(url="/static/index.html"), name="go-to-django"),
+    path("", RedirectView.as_view(url="/static/index.html"), name="go_to_ui"),
     path("", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("admin/", admin.site.urls),
