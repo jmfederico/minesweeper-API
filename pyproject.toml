@@ -8,7 +8,6 @@ authors = ["Federico Jaramillo Martinez <federicojaramillom@gmail.com>"]
 python = "^3.8"
 django = "^3.0.8"
 django_extensions = "^3.0.3"
-django-use-email-as-username = "^1.1.1"
 psycopg2 = "^2.8.5"
 django_heroku = "^0.3.1"
 gunicorn = "^20.0.4"

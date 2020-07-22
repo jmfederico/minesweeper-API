@@ -236,20 +236,6 @@ Django = ">=1.8"
 
 [[package]]
 category = "main"
-description = "A Django app to use email as username for user authentication."
-name = "django-use-email-as-username"
-optional = false
-python-versions = ">=3.4,<4.0"
-version = "1.1.1"
-
-[package.dependencies]
-django = ">=1.11"
-
-[package.extras]
-testing = ["coverage (>=4.0,<5.0)", "codecov (>=2.0.15,<3.0.0)"]
-
-[[package]]
-category = "main"
 description = "Web APIs for Django, made easy."
 name = "djangorestframework"
 optional = false
@@ -898,7 +884,7 @@ version = "5.1.0"
 brotli = ["brotli"]
 
 [metadata]
-content-hash = "8c097dede163fb4433c2d13d848288ea5196ebed80f1f9c631aa87c97598cad6"
+content-hash = "39391d64fa576da8c7fc7ff65e5cefcbc20a00ae43dfadf166fa913a9c50396f"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -985,10 +971,6 @@ django-heroku = [
 ]
 django-sslserver = [
     {file = "django_sslserver-0.22-py3-none-any.whl", hash = "sha256:c598a363d2ccdc2421c08ddb3d8b0973f80e8e47a3a5b74e4a2896f21c2947c5"},
-]
-django-use-email-as-username = [
-    {file = "django-use-email-as-username-1.1.1.tar.gz", hash = "sha256:33988d7dc784b6b33cb0b43e64ba8f5b3025bc6cc42d648aacd1aebb3435b9c7"},
-    {file = "django_use_email_as_username-1.1.1-py3-none-any.whl", hash = "sha256:40f5d0930d986b0c1bf755a934aca3ddc5fe94a3c1b694697b2a18f6168de897"},
 ]
 djangorestframework = [
     {file = "djangorestframework-3.11.0-py3-none-any.whl", hash = "sha256:05809fc66e1c997fd9a32ea5730d9f4ba28b109b9da71fccfa5ff241201fd0a4"},
