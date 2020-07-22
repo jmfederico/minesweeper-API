@@ -6,7 +6,8 @@
         <select v-model="selectedOption">
           <option :value="null">-- Select an option--</option>
           <option v-for="game in games" :key="game.uuid" :value="game.uuid">
-            {{ getStatusIcon(game) }} {{ game.cols }} x {{ game.rows }} - {{ game.uuid }}
+            {{ getStatusIcon(game) }} {{ game.cols }} x {{ game.rows }} -
+            {{ game.uuid }}
           </option>
           <option :value="newGameFlag">A new game</option>
         </select>
@@ -89,7 +90,6 @@ export default Vue.extend({
   }
 });
 </script>
-
 
 <style lang="scss" scoped>
 select {
