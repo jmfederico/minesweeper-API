@@ -86,3 +86,28 @@ You can read the API documentation in at two different paths:
 - https://ms-deviget.herokuapp.com/redoc/
 
 Choose the one that makes you happier!
+
+
+### Important considerations
+
+#### Game time
+Game time is handled using real time count. A timeout is used to trigger a
+visual change, but real datetime instances are used to calculate the difference
+from the start of the game until it finishes.
+
+#### Multi tab usage
+After every move the whole board is refreshed from the server so that if you
+are playing the same game in two different tabs, then we always get the most
+recent version of the board after each play. Not very efficient, but at least
+we do not get outdated games.
+
+#### No GET endpoint for a single game
+If you create big games (40 x 40) your payload for 15 games would be around
+100kb.
+
+If you create small games (10 x 10) your payload for 15 games would be around
+100km.
+
+I think those sizes are acceptable for a Demo app, so I went for a single GET
+endpoint were I could bring all the games at once, instead of making a single
+request for each one.
