@@ -333,7 +333,7 @@ class GameViewsetTestCase(TestCase):
         url = reverse("game-list")
         response = self.client.get(url, secure=True)
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
     def test_list_limited_to_auth_user(self):
         """A player only sees its own games."""
