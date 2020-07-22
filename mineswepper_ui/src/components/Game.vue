@@ -4,19 +4,6 @@
       {{ status }}
     </div>
 
-    <dl>
-      <dt>Number of columns</dt>
-      <dd>{{ game.cols }}</dd>
-      <dt>Number of rows</dt>
-      <dd>{{ game.rows }}</dd>
-      <dt>Total cells</dt>
-      <dd>{{ game.rows * game.cols }}</dd>
-      <dt>Number of bombs</dt>
-      <dd>{{ game.bombs }}</dd>
-      <dt>Number of flags</dt>
-      <dd>{{ flags }}</dd>
-    </dl>
-
     <table>
       <tr v-for="(_, r) in game.rows" :key="r">
         <td v-for="(_, c) in game.cols" :key="c" :class="'is-' + cell(c, r)">
@@ -45,6 +32,19 @@
         </td>
       </tr>
     </table>
+
+    <dl>
+      <dt>Number of columns</dt>
+      <dd>{{ game.cols }}</dd>
+      <dt>Number of rows</dt>
+      <dd>{{ game.rows }}</dd>
+      <dt>Total cells</dt>
+      <dd>{{ game.rows * game.cols }}</dd>
+      <dt>Number of bombs</dt>
+      <dd>{{ game.bombs }}</dd>
+      <dt>Number of flags</dt>
+      <dd>{{ flags }}</dd>
+    </dl>
   </div>
 </template>
 
