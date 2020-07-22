@@ -6,7 +6,7 @@
     <div v-if="!email">
       <EmailForm @email="email = $event" />
     </div>
-    <div v-else>
+    <div v-if="showGames" :key="email">
       <div>Welcome {{ email }} - <a href="" @click="logout">Log out</a></div>
       <Games :email="email" />
     </div>
@@ -22,7 +22,8 @@ export default Vue.extend({
   name: "PlayerPanel",
   data() {
     return {
-      email: null
+      email: null,
+      showGames: false
     };
   },
   components: {
@@ -30,7 +31,7 @@ export default Vue.extend({
     Games
   },
   created() {
-    // Keep last user session!
+    // Restore last user!
     const email = this.$cookies.get("email");
     if (email) {
       this.email = email;
@@ -44,6 +45,7 @@ export default Vue.extend({
   },
   watch: {
     email(newEmail) {
+      this.showGames = false;
       this.$axios.defaults.auth = null;
       this.$cookies.remove("email");
       if (newEmail) {
@@ -53,6 +55,7 @@ export default Vue.extend({
           username: this.email,
           password: this.email
         };
+        this.showGames = true;
       }
     }
   }

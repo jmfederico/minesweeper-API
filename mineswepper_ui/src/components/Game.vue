@@ -34,6 +34,8 @@
     </table>
 
     <dl>
+      <dt>Gametime</dt>
+      <dd>{{ elapsedTime }}</dd>
       <dt>Number of columns</dt>
       <dd>{{ game.cols }}</dd>
       <dt>Number of rows</dt>
@@ -58,6 +60,11 @@ export default Vue.extend({
       type: Object,
       required: true
     }
+  },
+  data() {
+    return {
+      elapsedTime: null
+    };
   },
   computed: {
     statusClass() {
@@ -91,9 +98,25 @@ export default Vue.extend({
           }, 0)
         );
       }, 0);
+    },
+    startDatetime() {
+      return new Date(this.game.created_at);
     }
   },
+  created() {
+    setInterval(this.updateGameTimer, 1000);
+  },
   methods: {
+    updateGameTimer() {
+      const endDatetime = this.game.finished
+        ? new Date(this.game.finished_at)
+        : new Date();
+      const delta = Math.floor((endDatetime - this.startDatetime) / 1000);
+      const minutes = Math.floor(delta / 60);
+      const seconds = delta % 60;
+
+      this.elapsedTime = `${minutes} minutes and ${seconds} seconds`;
+    },
     cell(c, r) {
       return this.game.board[c][r];
     },
