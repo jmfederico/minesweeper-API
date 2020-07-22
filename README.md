@@ -54,3 +54,8 @@ can use to go back to your previous games. **You are welcome.**
 You can create boards of up to 100 x 100, but do know that your browser will
 complain! I only allow that number so you can see how my recursive uncovering
 implementation does not die due to stack overflow!
+
+## Rules!
+ - Click on a flag to, well, flag the cell.
+ - Click on the check-mark to uncover a cell.
+ - Keep going until you win, or explode.
