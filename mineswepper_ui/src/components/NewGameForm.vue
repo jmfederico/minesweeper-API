@@ -52,9 +52,16 @@ export default Vue.extend({
   methods: {
     async createGame(event) {
       event.preventDefault();
-      await this.$axios.post("/games/", this.newGamePayload).then(response => {
-        this.$emit("newGame", response.data);
-      });
+      await this.$axios
+        .post("/games/", this.newGamePayload)
+        .then(response => {
+          this.$emit("newGame", response.data);
+        })
+        .catch(() => {
+          alert("Something failed!");
+          alert("And I did not write complete error handlers.");
+          alert("So you get this annoying alerts.");
+        });
     }
   }
 });

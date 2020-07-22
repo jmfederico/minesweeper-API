@@ -10,9 +10,9 @@ class GameSerializer(serializers.ModelSerializer):
     """Serializer for Game model instances."""
 
     board = serializers.SerializerMethodField()
-    cols = serializers.IntegerField()
-    rows = serializers.IntegerField()
-    bombs = serializers.IntegerField()
+    cols = serializers.IntegerField(max_value=100, min_value=3)
+    rows = serializers.IntegerField(max_value=100, min_value=3)
+    bombs = serializers.IntegerField(min_value=1)
     finished = serializers.IntegerField(read_only=True)
     won = serializers.IntegerField(read_only=True)
 
@@ -40,6 +40,14 @@ class GameSerializer(serializers.ModelSerializer):
         """Validate that the game is not finished."""
         if self.instance and self.instance.finished:
             raise serializers.ValidationError("The game has finished.")
+
+        cols = attrs.get("cols", 0)
+        rows = attrs.get("rows", 0)
+        bombs = attrs.get("bombs", None)
+        if bombs is not None and cols * rows - 1 < bombs:
+            raise serializers.ValidationError(
+                {"bombs": "At least one cell must be empty."}
+            )
 
         return super().validate(attrs)
 

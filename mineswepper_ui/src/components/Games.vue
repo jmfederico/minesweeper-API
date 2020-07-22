@@ -70,9 +70,16 @@ export default Vue.extend({
       return "▶️";
     },
     async loadGames() {
-      await this.$axios.get("games/").then(response => {
-        this.games = response.data;
-      });
+      await this.$axios
+        .get("games/")
+        .then(response => {
+          this.games = response.data;
+        })
+        .catch(() => {
+          alert("Something failed!");
+          alert("And I did not write complete error handlers.");
+          alert("So you get this annoying alerts.");
+        });
     },
     async setNewGame(game) {
       await this.loadGames();
