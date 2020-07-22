@@ -80,7 +80,7 @@ Test coverage is incomplete, but my main goal was to show how I write tests.
 
 ### API documentation
 
-You can read the API documentation in at two different paths:
+You can read the API documentation in two different places:
 
 - https://ms-deviget.herokuapp.com/swagger/
 - https://ms-deviget.herokuapp.com/redoc/
