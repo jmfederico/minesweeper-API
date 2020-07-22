@@ -73,17 +73,26 @@ class GameViewset(
         if cell.has_bomb:
             return
 
-        covered_neighbors = []
+        keys_to_check = {cell_key}
 
-        # First pass checks we the current cell has neighbors with bombs.
-        for neighbor_key, neighbor in game.get_neighbors((cell_key)):
-            if neighbor.has_bomb:
-                return
-            # Keep track of the neighbors we need to uncover next.
-            if neighbor.is_covered:
-                covered_neighbors.append((neighbor_key, neighbor))
+        while keys_to_check:
+            current_cell_key = keys_to_check.pop()
+            current_cell = game[current_cell_key]
 
-        # Go through every covered neighbor and recursively uncover its neighbors.
-        for neighbor_key, neighbor in covered_neighbors:
-            neighbor.uncover()
-            cls.recursive_uncover_neighbors(game, neighbor_key)
+            neighbor_has_bomb = False
+            neighbor_keys = []
+            neighbors = []
+
+            # First pass checks if the current cell has neighbors with bombs.
+            for neighbor_key, neighbor in game.get_neighbors((current_cell_key)):
+                neighbors.append(neighbor)
+                if neighbor.has_bomb:
+                    neighbor_has_bomb = True
+
+                if neighbor.is_covered:
+                    neighbor_keys.append(neighbor_key)
+
+            if not neighbor_has_bomb:
+                [cell.uncover() for cell in neighbors]
+                current_cell.uncover()
+                keys_to_check.update(neighbor_keys)

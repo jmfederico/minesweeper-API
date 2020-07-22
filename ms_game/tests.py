@@ -8,6 +8,7 @@ from django.test import TestCase
 from .models import Cell, Game, Status
 from .serializers import GameSerializer, CellSerializer
 from django.urls import reverse
+from .views import GameViewset
 
 User = get_user_model()
 
@@ -318,7 +319,7 @@ class CellSerializerTestCase(TestCase):
 
 
 class GameViewsetTestCase(TestCase):
-    """Test the Serializer for Cell instances."""
+    """Test the Viewset for Game instances."""
 
     def setUp(self):
         """Shared test configuration and setup."""
@@ -363,3 +364,17 @@ class GameViewsetTestCase(TestCase):
         response = self.client.get(url, secure=True)
 
         self.assertEqual(response.status_code, 200)
+
+    def test_recursive_uncovering(self):
+        """Cells with no neighboring bombs are recursively uncovered."""
+        board = create_data_board(100, 100)
+        board[0][0]["bomb"] = True
+        board[78][78]["bomb"] = True
+
+        game = Game(board=board, player=self.user_1)
+
+        GameViewset.recursive_uncover_neighbors(game, (5, 5))
+
+        self.assertEqual(game.uncovered, 9998)
+        self.assertTrue(game[0, 0].is_covered)
+        self.assertTrue(game[78, 78].is_covered)
