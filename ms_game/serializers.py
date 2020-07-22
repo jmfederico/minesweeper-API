@@ -18,7 +18,7 @@ class GameSerializer(serializers.ModelSerializer):
         """Define options for GameSerializer."""
 
         model = Game
-        fields = ["board", "cols", "rows", "bombs"]
+        fields = ["uuid", "board", "cols", "rows", "bombs"]
 
     @staticmethod
     def _count_bombs(cells):
