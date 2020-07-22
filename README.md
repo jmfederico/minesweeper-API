@@ -72,3 +72,12 @@ Since the data is handled in the backend, tests were implemented there
 to ensure that the logic of the game and the data was correctly handled.
 
 Test coverage is incomplete, but my main goal was to show how I write tests.
+
+### API documentation
+
+You can read the API documentation in at two different paths:
+
+- /swagger/
+- /redoc/
+
+Choose the one that makes you happier!
