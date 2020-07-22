@@ -42,9 +42,10 @@ class GameViewset(
     )
     def update_cell(self, request, pk, col, row):
         """Allow changing the status of a cell."""
+        col, row = int(col), int(row)
         game = self.get_object()
         try:
-            cell = game[(int(col), int(row))]
+            cell = game[(col, row)]
         except IndexError:
             raise Http404
 
@@ -55,6 +56,32 @@ class GameViewset(
         serializer = self.get_serializer(cell, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        self.recursive_uncover_neighbors(game, (col, row))
         game.save()
 
         return Response(status=http_status.HTTP_204_NO_CONTENT)
+
+    @classmethod
+    def recursive_uncover_neighbors(cls, game, cell_key):
+        """Recursively uncover neighbors for cells with no adjacent bombs."""
+        cell = game[cell_key]
+
+        if cell.has_bomb:
+            return
+
+        covered_neighbors = []
+
+        # First pass checks we the current cell has neighbors with bombs.
+        for neighbor_key, neighbor in game.get_neighbors(
+            (cell_key)
+        ):
+            if neighbor.has_bomb:
+                return
+            # Keep track of the neighbors we need to uncover next.
+            if neighbor.is_covered:
+                covered_neighbors.append((neighbor_key, neighbor))
+
+        # Go through every covered neighbor and recursively uncover its neighbors.
+        for neighbor_key, neighbor in covered_neighbors:
+            neighbor.uncover()
+            cls.recursive_uncover_neighbors(game, neighbor_key)

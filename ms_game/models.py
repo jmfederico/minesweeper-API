@@ -47,6 +47,11 @@ class Game(models.Model):
         return len(self.board[0]) if self.cols else 0
 
     @property
+    def size(self):
+        """Return the number of cells in the board."""
+        return self.rows * self.cols
+
+    @property
     def bombs(self):
         """Return the number of bombs in the board."""
         return sum(1 for _, cell in self.cells if cell.has_bomb)
@@ -69,7 +74,7 @@ class Game(models.Model):
         A game is finished when a bomb has been uncovered or
         when only bombs are left to be uncovered.
         """
-        return self.uncovered == self.bombs or self.uncovered_bombs
+        return (self.size - self.uncovered == self.bombs) or self.uncovered_bombs
 
     def __getitem__(self, key):
         """Return the requested game cell."""
