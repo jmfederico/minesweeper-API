@@ -1,5 +1,9 @@
 {
   "name": "mineswepper_ui-heorku-hook",
+  "engines": {
+    "yarn": "1.x",
+    "node": "14.x"
+  },
   "scripts": {
     "postinstall": "yarn --cwd mineswepper_ui install && yarn --cwd mineswepper_ui build && rm -rf mineswepper_ui/node_modules"
   }
