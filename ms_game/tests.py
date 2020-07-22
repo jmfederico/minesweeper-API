@@ -1,11 +1,12 @@
 """Define tests for MD GAme app."""
 from unittest.mock import Mock
+from rest_framework import serializers
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from .models import Cell, Game, Status
-from .serializers import GameSerializer
+from .serializers import GameSerializer, CellSerializer
 
 User = get_user_model()
 
@@ -213,7 +214,7 @@ class CellBombTestCase(TestCase):
 
 
 class GameSerializerTestCase(TestCase):
-    """Test the output of the Serializer."""
+    """Test the the Serializer for Game model."""
 
     def setUp(self):
         """Set up common test data."""
@@ -275,3 +276,41 @@ class GameSerializerTestCase(TestCase):
         self.assertEqual(game.cols, 5)
         self.assertEqual(game.rows, 7)
         self.assertEqual(game.bombs, 4)
+
+
+class CellSerializerTestCase(TestCase):
+    """Test the Serializer for Cell instances."""
+
+    def setUp(self):
+        """Set up common test data."""
+        self.cell = Cell({})
+
+    def test_flagged(self):
+        """The cell is marked as flagged."""
+        serializer = CellSerializer(self.cell, data={"status": Status.FLAGGED.value})
+        serializer.is_valid()
+        serializer.save()
+        self.assertTrue(self.cell.is_flagged)
+
+    def test_uncovered(self):
+        """The cell is uncovered."""
+        serializer = CellSerializer(self.cell, data={"status": Status.UNCOVERED.value})
+        serializer.is_valid()
+        serializer.save()
+        self.assertFalse(self.cell.is_covered)
+
+    def test_unflag(self):
+        """The cell is unflagged."""
+        self.cell.flag()
+        serializer = CellSerializer(self.cell, data={"status": None})
+        serializer.is_valid()
+        serializer.save()
+        self.assertFalse(self.cell.is_flagged)
+
+    def test_fails_if_uncovered(self):
+        """An uncovered cell can not be modified."""
+        self.cell.uncover()
+        serializer = CellSerializer(self.cell, data={"status": None})
+        self.assertRaises(
+            serializers.ValidationError, serializer.is_valid, raise_exception=True
+        )
