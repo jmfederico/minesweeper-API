@@ -115,7 +115,10 @@ export default Vue.extend({
       const minutes = Math.floor(delta / 60);
       const seconds = delta % 60;
 
-      this.elapsedTime = `${minutes} minutes and ${seconds} seconds`;
+      const minutes_str = minutes === 1 ? "minute" : "minutes";
+      const seconds_str = seconds === 1 ? "second" : "seconds";
+
+      this.elapsedTime = `${minutes} ${minutes_str} and ${seconds} ${seconds_str}`;
     },
     cell(c, r) {
       return this.game.board[c][r];

@@ -31,9 +31,9 @@ export default Vue.extend({
   name: "NewGameForm",
   data() {
     return {
-      cols: 3,
-      rows: 3,
-      bombs: 3
+      cols: 10,
+      rows: 10,
+      bombs: 15
     };
   },
   computed: {
