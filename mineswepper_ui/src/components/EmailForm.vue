@@ -1,0 +1,33 @@
+<template>
+  <div>
+    <form @submit="setEmail">
+      <label>your email:</label>
+      <input
+        v-model="email"
+        type="email"
+        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+        title="Email must contain a full domain. user@example.com"
+      />
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</template>
+
+<script>
+import Vue from "vue";
+
+export default Vue.extend({
+  name: "PlayerPanel",
+  data() {
+    return {
+      email: ""
+    };
+  },
+  methods: {
+    setEmail(event) {
+      event.preventDefault();
+      this.$emit("email", this.email);
+    }
+  }
+});
+</script>

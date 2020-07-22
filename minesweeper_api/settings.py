@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "ms_game.apps.MsGameConfig",
     # Third-party apps
     "rest_framework",
+    "corsheaders",
     # Base django apps.
     "django.contrib.admin",
     "django.contrib.auth",
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -214,10 +216,21 @@ if os.environ.get("ALLOWED_HOSTS"):
 # Django Rest Framework
 # https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ]
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAdminUser"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "ms_game.authentication.EmailAuth",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ],
 }
+
+
+# CORS
+# https://github.com/adamchainz/django-cors-headers
+CORS_ORIGIN_WHITELIST = [
+    url.strip() for url in os.getenv("CORS_ORIGIN_WHITELIST", "").split()
+]
+CORS_ALLOW_CREDENTIALS = True
 
 
 # https://docs.djangoproject.com/en/dev/topics/logging/#default-logging-configuration
