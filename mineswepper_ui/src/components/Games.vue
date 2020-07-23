@@ -87,7 +87,7 @@ export default Vue.extend({
     },
     async handleCellStatus([c, r, status]) {
       const url = `games/${this.selectedOption}/cells/${c},${r}/`;
-      await this.$axios.put(url, { status }).catch(() => {
+      await this.$axios.patch(url, { status }).catch(() => {
         alert("Something failed!");
         alert("And I did not write complete error handlers.");
         alert("So you get this annoying alerts.");
