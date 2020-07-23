@@ -180,7 +180,7 @@ td {
   }
 
   &.is-f {
-    background-color: lightseagreen;
+    background-color: lightpink;
     .action {
       height: 100%;
     }
