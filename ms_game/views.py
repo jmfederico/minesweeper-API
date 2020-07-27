@@ -80,10 +80,10 @@ class GameViewset(
 
     @staticmethod
     def recursive_uncover_neighbors(game, cell_key):
-        """Recursively uncover neighbors for cells with no adjacent bombs."""
+        """Recursively uncover neighbors for uncovered cells with no adjacent bombs."""
         cell = game[cell_key]
 
-        if cell.has_bomb or cell.is_flagged:
+        if cell.is_covered or cell.has_bomb:
             return
 
         keys_to_check = {cell_key}

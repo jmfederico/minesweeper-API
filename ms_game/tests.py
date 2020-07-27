@@ -351,6 +351,7 @@ class GameViewsetTestCase(TestCase):
         """Cells with no neighboring bombs are recursively uncovered."""
         board = create_data_board(100, 100)
         board[0][0]["bomb"] = True
+        board[5][5]["status"] = Status.UNCOVERED.value
         board[78][78]["bomb"] = True
         board[97][98]["bomb"] = True
 
