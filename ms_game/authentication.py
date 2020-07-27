@@ -19,6 +19,6 @@ class EmailAuth(BasicAuthentication):
         except ValidationError:
             raise exceptions.AuthenticationFailed(_("Invalid username/password."))
 
-        user, __ = User.objects.get_or_create(username=userid)
+        user, __ = User.objects.get_or_create(username=userid.lower())
 
         return (user, None)
