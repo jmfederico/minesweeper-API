@@ -8,7 +8,7 @@
       <tr v-for="(_, r) in game.rows" :key="r">
         <Cell
           v-for="(_, c) in game.cols"
-          :key="c"
+          :key="c + '-' + r"
           :value="cell(c, r)"
           @uncover="uncover(c, r)"
           @toggleFlag="toggleFlag(c, r)"
