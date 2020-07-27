@@ -83,7 +83,7 @@ class GameViewset(
         """Recursively uncover neighbors for cells with no adjacent bombs."""
         cell = game[cell_key]
 
-        if cell.has_bomb:
+        if cell.has_bomb or cell.is_flagged:
             return
 
         keys_to_check = {cell_key}
