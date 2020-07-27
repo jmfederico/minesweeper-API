@@ -32,7 +32,7 @@ export default Vue.extend({
   name: "Cell",
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       required: true
     }
   }
