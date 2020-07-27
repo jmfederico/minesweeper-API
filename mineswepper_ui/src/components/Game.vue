@@ -6,30 +6,13 @@
 
     <table>
       <tr v-for="(_, r) in game.rows" :key="r">
-        <td v-for="(_, c) in game.cols" :key="c" :class="'is-' + cell(c, r)">
-          <!-- If uncovered, print the number of adjacent bombs. -->
-          <div v-if="parseInt(cell(c, r)) === cell(c, r)">
-            <!-- Show empty string instead of 0 -->
-            {{ cell(c, r) || "" }}
-          </div>
-
-          <!-- Is this a bomb?. -->
-          <div v-else-if="cell(c, r) === '*'">💣</div>
-
-          <!-- If covered, allow uncovering, and flag toggle. -->
-          <template v-else>
-            <div @click="toggleFlag(c, r)" class="toggle-flag-action action">
-              {{ cell(c, r) === "f" ? "🚩" : "🏳" }}
-            </div>
-            <div
-              v-if="cell(c, r) !== 'f'"
-              @click="uncover(c, r)"
-              class="uncover-action action"
-            >
-              🗹
-            </div>
-          </template>
-        </td>
+        <Cell
+          v-for="(_, c) in game.cols"
+          :key="c"
+          :value="cell(c, r)"
+          @uncover="uncover(c, r)"
+          @toggleFlag="toggleFlag(c, r)"
+        />
       </tr>
     </table>
 
@@ -52,9 +35,13 @@
 
 <script>
 import Vue from "vue";
+import Cell from "./Cell.vue";
 
 export default Vue.extend({
   name: "Game",
+  components: {
+    Cell
+  },
   props: {
     game: {
       type: Object,
@@ -158,36 +145,6 @@ table {
 }
 .is-lost .game-status {
   color: red;
-}
-
-td {
-  margin: 0.1rem;
-  width: 3rem;
-  height: 4rem;
-  background-color: #eee;
-  cursor: crosshair;
-
-  .action {
-    height: 50%;
-  }
-
-  &.is-c {
-    background-color: lightgray;
-  }
-
-  &.is-\* {
-    background-color: lightcoral;
-  }
-
-  &.is-f {
-    background-color: lightpink;
-    .action {
-      height: 100%;
-    }
-  }
-}
-.is-active td .action {
-  cursor: pointer;
 }
 
 dl {
